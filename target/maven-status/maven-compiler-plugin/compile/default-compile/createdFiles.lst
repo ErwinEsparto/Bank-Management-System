@@ -1,2 +1,14 @@
+com\school\bank\Historypage.class
 com\school\bank\Homepage.class
+com\school\bank\Historypage$1.class
+com\school\bank\BankServices.class
+com\school\bank\ViewAccountspage.class
+com\school\bank\Historypage$2.class
+com\school\bank\Withdrawpage.class
+com\school\bank\Transferpage.class
+com\school\bank\Transactionpage.class
+com\school\bank\BankSQLData.class
+com\school\bank\Pinpage.class
 com\school\bank\Bank.class
+com\school\bank\Historypage$3.class
+com\school\bank\Depositpage.class

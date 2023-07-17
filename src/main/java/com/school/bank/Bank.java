@@ -1,7 +1,19 @@
 package com.school.bank;
 
-public class Bank {
+import java.awt.*;
+
+/**
+ *
+ * @author Erwin Esparto
+ */
+public class Bank{
     public static void main(String[] args) {
-        new HomeUI();
+        EventQueue.invokeLater(new Runnable(){
+        @Override
+        public void run(){
+            Homepage home = new Homepage();
+            home.setVisible(true);
+        }
+    });
     }
 }

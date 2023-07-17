@@ -2,22 +2,28 @@ package com.school.bank;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.time.LocalDate;
+import java.util.*;
 import javax.swing.*;
 
-public class RegisterUI implements ActionListener {
-    private JFrame register = new JFrame("Register");
-    private JLabel lblInfo, lblFName, lblLName, lblEmail, lblBankNumber, lblBankPin, lblResult;
-    private JTextField txtfldFName, txtfldLName, txtfldEmail, txtfldBankNumber;
-    private JPasswordField psswrdfldBankPin = new JPasswordField();
-    private JButton btnRegister, btnBack;
+/**
+ *
+ * @author Andrei Bodota
+ */
+public class Registerpage extends JFrame implements ActionListener {
+    private final JLabel lblInfo, lblFName, lblLName, lblEmail, lblBankNumber, lblBankPin;
+    private final JTextField txtfldFName, txtfldLName, txtfldEmail, txtfldBankNumber;
+    private final JPasswordField psswrdfldBankPin = new JPasswordField();
+    private final JButton btnRegister, btnBack;
+    private BankServices service = new BankServices();
     
-    RegisterUI(){
-        register.setSize(500, 500);
-        register.setLayout(null);
-        register.setDefaultCloseOperation(register.EXIT_ON_CLOSE);
-        register.setVisible(true);
-        register.setResizable(false);
-        register.setLocationRelativeTo(null);
+    Registerpage(){
+        setTitle("Opening New Account");
+        setSize(500, 500);
+        setLayout(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        setLocationRelativeTo(null);
         
         lblInfo = new JLabel("Provide the following information: ");
         lblInfo.setBounds(80, 60, 350, 30);
@@ -55,8 +61,11 @@ public class RegisterUI implements ActionListener {
         txtfldEmail.setBounds(220, 180, 150, 30);
         txtfldEmail.setFont(new Font("Century Gothic", Font.PLAIN, 15));
         
-        txtfldBankNumber = new JTextField();
+        Random rdn = new Random();
+        String num = Integer.toString(rdn.nextInt(99999999));
+        txtfldBankNumber = new JTextField(num);
         txtfldBankNumber.setBounds(220, 220, 150, 30);
+        txtfldBankNumber.setEditable(false);
         txtfldBankNumber.setFont(new Font("Century Gothic", Font.PLAIN, 15));
         
         psswrdfldBankPin.setBounds(220, 260, 150, 30);
@@ -72,32 +81,51 @@ public class RegisterUI implements ActionListener {
         btnBack.setFont(new Font("Century Gothic", Font.PLAIN, 15));
         btnBack.addActionListener(this);
         
-        lblResult = new JLabel();
-        lblResult.setBounds(160, 340, 300, 30);
-        lblResult.setFont(new Font("Century Gothic", Font.PLAIN, 15));
-        
-        register.add(lblInfo);
-        register.add(lblFName);
-        register.add(lblLName);
-        register.add(lblEmail);
-        register.add(lblBankNumber);
-        register.add(lblBankPin);
-        register.add(txtfldFName);
-        register.add(txtfldLName);
-        register.add(txtfldEmail);
-        register.add(txtfldBankNumber);
-        register.add(psswrdfldBankPin);
-        register.add(btnRegister);
-        register.add(btnBack);
-        register.add(lblResult);
+        add(lblInfo);
+        add(lblFName);
+        add(lblLName);
+        add(lblEmail);
+        add(lblBankNumber);
+        add(lblBankPin);
+        add(txtfldFName);
+        add(txtfldLName);
+        add(txtfldEmail);
+        add(txtfldBankNumber);
+        add(psswrdfldBankPin);
+        add(btnRegister);
+        add(btnBack);
     }
+    @Override
     public void actionPerformed(ActionEvent e){
         if (e.getSource() == btnRegister){
-            lblResult.setText("Successfully Registered.");
+            String firstname = txtfldFName.getText();
+            String lastname = txtfldLName.getText();
+            String emailaddress = txtfldEmail.getText();
+            String banknumber = txtfldBankNumber.getText();
+            String password = psswrdfldBankPin.getText();
+
+            if (txtfldFName.getText().isEmpty() == false && txtfldLName.getText().isEmpty() == false && txtfldEmail.getText().isEmpty() == false && txtfldBankNumber.getText().isEmpty() == false && psswrdfldBankPin.getText().isEmpty() == false){
+                BankAccount account = new BankAccount(
+                        firstname,
+                        lastname,
+                        emailaddress,
+                        banknumber,
+                        password,
+                        BankAccount.AccountType.Customer,
+                        0.0,
+                        LocalDate.now()
+                );
+                //Insert database method here
+                JOptionPane.showMessageDialog(this, "Succecssfully Registered.");
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Some fields cannot be blank.");
+            }
         }
         else if (e.getSource() == btnBack){
-            register.dispose();
-            new MenuUI();
+            dispose();
+            Menupage menu = new Menupage();
+            menu.setVisible(true);
         }
     }
 }

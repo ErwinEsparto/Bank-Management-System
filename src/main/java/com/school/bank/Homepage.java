@@ -2,24 +2,26 @@ package com.school.bank;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
 import javax.swing.*;
 
-public class HomeUI implements ActionListener {
-    private JFrame home = new JFrame("Welcome");
-    private JLabel lblBankname, lblInfo, lblEmail, lblPassword, lblResult;
-    private JTextField txtfldEmail = new JTextField();
-    private JPasswordField psswrdfldPassword = new JPasswordField();
-    private JButton btnLogin;
-    private BankFunctions function = new BankFunctions();
+/**
+ *
+ * @author Andrei Bodota
+ */
+public class Homepage extends JFrame implements ActionListener{
+    private final JLabel lblBankname, lblInfo, lblEmail, lblPassword, lblResult;
+    private final JTextField txtfldEmail = new JTextField();
+    private final JPasswordField psswrdfldPassword = new JPasswordField();
+    private final JButton btnLogin;
+    private final BankServices service = new BankServices();
     
-    HomeUI(){
-        home.setSize(500, 500);
-        home.setLayout(null);
-        home.setDefaultCloseOperation(home.EXIT_ON_CLOSE);
-        home.setVisible(true);
-        home.setResizable(false);
-        home.setLocationRelativeTo(null);
+    Homepage(){
+        setTitle("Welcome");
+        setSize(500, 500);
+        setLayout(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        setLocationRelativeTo(null);
         
         lblBankname = new JLabel("PUP Bank Hub");
         lblBankname.setBounds(75, 80, 350, 50);
@@ -53,25 +55,26 @@ public class HomeUI implements ActionListener {
         lblResult.setBounds(222, 300, 150, 30);
         lblResult.setFont(new Font("Century Gothic", Font.PLAIN, 13));
         
-        home.add(lblBankname);
-        home.add(lblInfo);
-        home.add(lblEmail);
-        home.add(lblPassword);
-        home.add(txtfldEmail);
-        home.add(psswrdfldPassword);
-        home.add(btnLogin);
-        home.add(lblResult);
+        add(lblBankname);
+        add(lblInfo);
+        add(lblEmail);
+        add(lblPassword);
+        add(txtfldEmail);
+        add(psswrdfldPassword);
+        add(btnLogin);
+        add(lblResult);
     }
     @Override
     public void actionPerformed(ActionEvent e){
         if (e.getSource() == btnLogin){
             String email = txtfldEmail.getText();
             String password = psswrdfldPassword.getText();
-            BankAccountModel account = function.checkAccount(email, password);
             
+            BankAccount account = service.checkAccount(email, password);
             if (account != null){
-                home.dispose();
-                new MenuUI();
+                dispose();
+                Menupage menu = new Menupage();
+                menu.setVisible(true);
             }
             else {
                 txtfldEmail.setText("");

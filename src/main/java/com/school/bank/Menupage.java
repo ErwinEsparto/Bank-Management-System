@@ -4,18 +4,21 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class MenuUI implements ActionListener{
-    private JFrame menu = new JFrame("Menu");
-    private JLabel lblInfo = new JLabel("Please choose a transaction: ");
-    private JButton btnOpen, btnAccounts, btnProcess, btnHistory, btnSignout;
+/**
+ *
+ * @author Erwin Esparto
+ */
+public class Menupage extends JFrame implements ActionListener{
+    private final JLabel lblInfo = new JLabel("Please choose an action: ");
+    private final JButton btnOpen, btnAccounts, btnProcess, btnHistory, btnSignout;
     
-    MenuUI(){
-        menu.setSize(500, 500);
-        menu.setLayout(null);
-        menu.setDefaultCloseOperation(menu.EXIT_ON_CLOSE);
-        menu.setVisible(true);
-        menu.setResizable(false);
-        menu.setLocationRelativeTo(null);
+    Menupage(){
+        setTitle("Menu");
+        setSize(500, 500);
+        setLayout(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        setLocationRelativeTo(null);
         
         lblInfo.setBounds(110, 140, 350, 30);
         lblInfo.setFont(new Font("Century Gothic", Font.PLAIN, 20));
@@ -45,21 +48,35 @@ public class MenuUI implements ActionListener{
         btnSignout.setFont(new Font("Century Gothic", Font.PLAIN, 15));
         btnSignout.addActionListener(this);
         
-        menu.add(lblInfo);
-        menu.add(btnOpen);
-        menu.add(btnProcess);
-        menu.add(btnHistory);
-        menu.add(btnAccounts);
-        menu.add(btnSignout);
+        add(lblInfo);
+        add(btnOpen);
+        add(btnProcess);
+        add(btnHistory);
+        add(btnAccounts);
+        add(btnSignout);
     }
+    @Override
     public void actionPerformed(ActionEvent e){
+        dispose();
         if (e.getSource() == btnOpen){
-            menu.dispose();
-            new RegisterUI();
+            Registerpage register = new Registerpage();
+            register.setVisible(true);
+        }
+        else if (e.getSource() == btnAccounts){
+            ViewAccountspage accounts = new ViewAccountspage();
+            accounts.setVisible(true);
+        }
+        else if (e.getSource() == btnProcess){
+            Transactionpage tp = new Transactionpage();
+            tp.setVisible(true);
+        }
+        else if (e.getSource() == btnHistory){
+            
         }
         else if (e.getSource() == btnSignout){
-            menu.dispose();
-            new HomeUI();
+            JOptionPane.showMessageDialog(this, "You are now signing out.");
+            Homepage home = new Homepage();
+            home.setVisible(true);
         }
     }
 }

@@ -84,6 +84,7 @@ public class Withdrawpage extends JFrame implements ActionListener {
                         double newCash = account.getCash() - amount2;
                         account.setCash(newCash);
                         service.updateAccountCash(account);
+                        service.recordTransaction(account, Transaction.TransactionType.Withdraw, amount2);
 
                         lblResult.setBounds(100, 270, 300, 30);
                         lblResult.setForeground(Color.black);

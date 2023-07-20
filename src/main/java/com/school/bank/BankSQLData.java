@@ -97,4 +97,84 @@ public class BankSQLData {
                 exception.printStackTrace();
         }
     }
+    public ArrayList getTransactions(){
+        ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+        try {
+            PreparedStatement accounts= (PreparedStatement) connection.prepareStatement("Select * from Transactions");
+            ResultSet result = accounts.executeQuery();
+                    
+            while(result.next()){
+                transactions.add(new Transaction(
+                        result.getString("Name"),
+                        result.getString("Banknumber"),
+                        result.getDouble("Amount"),
+                        "Withdraw".equals(result.getString("Type")) ? Transaction.TransactionType.Withdraw : "Deposit".equals(result.getString("Type")) ? Transaction.TransactionType.Deposit : "Transfer".equals(result.getString("Type")) ? Transaction.TransactionType.Transfer : Transaction.TransactionType.Receive,
+                        result.getDouble("Balance"),
+                        result.getDate("Date").toLocalDate()
+                ));
+            }
+        }
+        catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return transactions;
+    }
+    public void saveWithdrawTransaction(Transaction transaction){
+        try {
+            String query = "INSERT INTO Transactions values('" + 
+                    transaction.getFullname() + "','" + 
+                    transaction.getBanknumber()+ "','" + 
+                    transaction.getAmount()+ "','" + 
+                    "Withdraw" + "','" +
+                    transaction.getBalance() + "','" + 
+                    transaction.getTransactionDate()+"')";
+            Statement state = connection.createStatement();
+            state.executeUpdate(query);
+        } 
+        catch (Exception exception) {
+                exception.printStackTrace();
+        }
+    } 
+    public void saveDepositTransaction(Transaction transaction){
+        try {
+            String query = "INSERT INTO Transactions values('" + 
+                    transaction.getFullname() + "','" + 
+                    transaction.getBanknumber()+ "','" + 
+                    transaction.getAmount() + "','" + 
+                    "Deposit" + "','" +
+                    transaction.getBalance() + "','" + 
+                    transaction.getTransactionDate()+"')";
+            Statement state = connection.createStatement();
+            state.executeUpdate(query);
+        } 
+        catch (Exception exception) {
+                exception.printStackTrace();
+        }
+    } 
+    public void saveTransfer(Transaction owner, Transaction transfer){
+        try {
+            String query = "INSERT INTO Transactions values('" + 
+                    owner.getFullname() + "','" + 
+                    owner.getBanknumber()+ "','" + 
+                    owner.getAmount()+ "','" + 
+                    "Transfer" + "','" +
+                    owner.getBalance() + "','" + 
+                    owner.getTransactionDate()+"')";
+            Statement state = connection.createStatement();
+            state.executeUpdate(query);
+            
+            String query2 = "INSERT INTO Transactions values('" + 
+                    transfer.getFullname() + "','" + 
+                    transfer.getBanknumber()+ "','" + 
+                    transfer.getAmount()+ "','" + 
+                    "Receive" + "','" +
+                    transfer.getBalance() + "','" + 
+                    transfer.getTransactionDate()+"')";
+            Statement state2 = connection.createStatement();
+            state2.executeUpdate(query2);
+        } 
+        catch (Exception exception) {
+                exception.printStackTrace();
+        }
+    } 
 }

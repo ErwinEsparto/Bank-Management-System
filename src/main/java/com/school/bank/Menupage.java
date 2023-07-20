@@ -71,7 +71,8 @@ public class Menupage extends JFrame implements ActionListener{
             tp.setVisible(true);
         }
         else if (e.getSource() == btnHistory){
-            
+            Reportpage reports = new Reportpage();
+            reports.setVisible(true);
         }
         else if (e.getSource() == btnSignout){
             JOptionPane.showMessageDialog(this, "You are now signing out.");

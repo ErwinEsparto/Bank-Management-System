@@ -93,6 +93,7 @@ public class Transferpage extends JFrame implements ActionListener {
                             double transferCash = transferAccount.getCash() + cash;
                             transferAccount.setCash(transferCash);
                             service.transferCash(account, transferAccount);
+                            service.recordTransfer(account, transferAccount, cash);
 
                             lblResult.setBounds(110, 270, 300, 30);
                             lblResult.setForeground(Color.black);

@@ -30,4 +30,16 @@ public class BankServices {
         }
         return null;
     }
+    public void updateAccountCash(BankAccount account){
+        sql.updateAccountCash(account);
+    }
+    public void updateBankPin(BankAccount account){
+        sql.updateBankPin(account);
+    }
+    public void registerAccount(BankAccount account){
+        sql.saveAccount(account);
+    }
+    public void transferCash(BankAccount owner, BankAccount transfer){
+        sql.transferCash(owner, transfer);
+    }
 }

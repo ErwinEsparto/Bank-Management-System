@@ -115,7 +115,7 @@ public class Registerpage extends JFrame implements ActionListener {
                         0.0,
                         LocalDate.now()
                 );
-                //Insert database method here
+                service.registerAccount(account);
                 JOptionPane.showMessageDialog(this, "Succecssfully Registered.");
             }
             else{

@@ -84,18 +84,25 @@ public class Pinpage extends JFrame implements ActionListener {
             String confirmPassword = passfldConfirm.getText();
             
             if(account.getPassword().equals(oldPassword)){
-                if (newPassword.equals(confirmPassword)){
-                    account.setPassword(confirmPassword);
-                    //Insert database method here
-                    
-                    lblResult.setBounds(140, 310, 300, 30);
-                    lblResult.setForeground(Color.black);
-                    lblResult.setText("Sucessfully changed the pin.");
+                if(!oldPassword.equals(confirmPassword)){
+                    if (newPassword.equals(confirmPassword)){
+                        account.setPassword(confirmPassword);
+                        service.updateBankPin(account);
+
+                        lblResult.setBounds(140, 310, 300, 30);
+                        lblResult.setForeground(Color.black);
+                        lblResult.setText("Sucessfully changed the pin.");
+                    }
+                    else{
+                        lblResult.setBounds(140, 310, 300, 30);
+                        lblResult.setForeground(Color.red);
+                        lblResult.setText("New pins are not the same.");
+                    }
                 }
                 else{
                     lblResult.setBounds(140, 310, 300, 30);
                     lblResult.setForeground(Color.red);
-                    lblResult.setText("New pins are not the same.");
+                    lblResult.setText("Error: Same new and old pin.");
                 }
             }
             else{

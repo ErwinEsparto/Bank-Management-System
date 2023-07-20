@@ -78,38 +78,47 @@ public class Withdrawpage extends JFrame implements ActionListener {
             double amount1 = Double.parseDouble(txtfldAmount1.getText());
             double amount2 = Double.parseDouble(txtfldAmount2.getText());
             
-            if(amount1 == amount2){
-                if(account.getCash() >= amount2){
-                    double newCash = account.getCash() - amount2;
-                    account.setCash(newCash);
-                    //Insert database method here
+            if(amount1 != 0 && amount2 != 0){
+                if(amount1 == amount2){
+                    if(account.getCash() >= amount2){
+                        double newCash = account.getCash() - amount2;
+                        account.setCash(newCash);
+                        service.updateAccountCash(account);
 
-                    lblResult.setBounds(100, 270, 300, 30);
-                    lblResult.setForeground(Color.black);
-                    lblResult.setText("   Successful Withdrawal.");
-                    lblResult.setBorder( new MatteBorder(0, 1, 0, 0, Color.black));
+                        lblResult.setBounds(100, 270, 300, 30);
+                        lblResult.setForeground(Color.black);
+                        lblResult.setText("   Successful Withdrawal.");
+                        lblResult.setBorder( new MatteBorder(0, 1, 0, 0, Color.black));
 
-                    lblBalance.setBounds(100, 300, 300, 30);
-                    lblBalance.setText("   New Balance: PHP " + account.getCash());
-                    lblBalance.setBorder( new MatteBorder(0, 1, 0, 0, Color.black));
+                        lblBalance.setBounds(100, 300, 300, 30);
+                        lblBalance.setText("   New Balance: PHP " + account.getCash());
+                        lblBalance.setBorder( new MatteBorder(0, 1, 0, 0, Color.black));
+                    }
+                    else{
+                        lblResult.setBounds(100, 270, 300, 30);
+                        lblResult.setForeground(Color.red);
+                        lblResult.setBorder( new MatteBorder(0, 1, 0, 0, Color.black));
+                        lblResult.setText("   You don't have enough balance.");
+
+                        lblBalance.setBounds(100, 300, 300, 30);
+                        lblBalance.setText("   Current Balance: PHP " + account.getCash());
+                        lblBalance.setBorder( new MatteBorder(0, 1, 0, 0, Color.black));
+                    }
                 }
                 else{
-                    lblResult.setBounds(100, 270, 300, 30);
+                    lblResult.setBounds(150, 270, 300, 30);
                     lblResult.setForeground(Color.red);
-                    lblResult.setBorder( new MatteBorder(0, 1, 0, 0, Color.black));
-                    lblResult.setText("   You don't have enough balance.");
-                    
-                    lblBalance.setBounds(100, 300, 300, 30);
-                    lblBalance.setText("   Current Balance: PHP " + account.getCash());
-                    lblBalance.setBorder( new MatteBorder(0, 1, 0, 0, Color.black));
+                    lblResult.setBorder( new MatteBorder(0, 0, 0, 0, Color.black));
+                    lblResult.setText("Amounts are not the same.");
+                    lblBalance.setBounds(0, 0, 0, 0);
                 }
             }
             else{
-                lblResult.setBounds(150, 270, 300, 30);
-                lblResult.setForeground(Color.red);
-                lblResult.setBorder( new MatteBorder(0, 0, 0, 0, Color.black));
-                lblResult.setText("Amounts are not the same.");
-                lblBalance.setBounds(0, 0, 0, 0);
+                    lblResult.setBounds(120, 270, 300, 30);
+                    lblResult.setForeground(Color.red);
+                    lblResult.setBorder( new MatteBorder(0, 0, 0, 0, Color.black));
+                    lblResult.setText("Cannot withdraw empty amount.");
+                    lblBalance.setBounds(0, 0, 0, 0);
             }
         }
         else if (e.getSource() == btnBack){

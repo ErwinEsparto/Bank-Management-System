@@ -1,6 +1,7 @@
 package com.school.bank;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.*;
 
 
@@ -43,5 +44,57 @@ public class BankSQLData {
             sqlException.printStackTrace();
         }
         return BankAccounts;
+    }
+    public void updateAccountCash(BankAccount account){
+        try {
+            String query = "Update Accounts Set Cash ='" + account.getCash() + "' Where Banknumber='" + account.getBanknumber() + "'";
+            Statement state = connection.createStatement();
+            state.executeUpdate(query);
+        } 
+        catch (Exception exception) {
+                exception.printStackTrace();
+        }
+    } 
+    public void updateBankPin(BankAccount account){
+        try {
+            String query = "Update Accounts Set Password ='" + account.getPassword() + "' Where Banknumber='" + account.getBanknumber() + "'";
+            Statement state = connection.createStatement();
+            state.executeUpdate(query);
+        } 
+        catch (Exception exception) {
+                exception.printStackTrace();
+        }
+    } 
+    public void saveAccount(BankAccount account){
+        try {
+            String query = "INSERT INTO Accounts values('" + 
+                    account.getFirstname() + "','" + 
+                    account.getLastname() + "','" + 
+                    account.getEmail() + "','" + 
+                    account.getBanknumber() + "','" + 
+                    account.getPassword() + "','" + 
+                    "Customer" + "','" + 
+                    "0" + "','" + 
+                    LocalDate.now() +"')";
+            Statement state = connection.createStatement();
+            state.executeUpdate(query);
+        } 
+        catch (Exception exception) {
+                exception.printStackTrace();
+        }
+    } 
+    public void transferCash(BankAccount owner, BankAccount transfer){
+        try {
+            String query = "Update Accounts Set Cash ='" + owner.getCash()+ "' Where Banknumber='" + owner.getBanknumber() + "'";
+            Statement state = connection.createStatement();
+            state.executeUpdate(query);
+            
+            String query2 = "Update Accounts Set Cash ='" + transfer.getCash()+ "' Where Banknumber='" + transfer.getBanknumber() + "'";
+            Statement state2 = connection.createStatement();
+            state2.executeUpdate(query2);
+        } 
+        catch (Exception exception) {
+                exception.printStackTrace();
+        }
     }
 }

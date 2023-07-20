@@ -84,32 +84,42 @@ public class Transferpage extends JFrame implements ActionListener {
             BankAccount transferAccount = service.checkBanknumber(transferBanknumber);
                 
             if(transferAccount != null){
-                if(transferAccount != account){
-                    if(account.getCash() >= cash){
-                        double ownerCash = account.getCash() - cash;
-                        account.setCash(ownerCash);
-                        double transferCash = transferAccount.getCash() + cash;
-                        transferAccount.setCash(transferCash);
-                        //Insert database method here
-                        
-                        lblResult.setBounds(110, 270, 300, 30);
-                        lblResult.setForeground(Color.black);
-                        lblResult.setBorder( new MatteBorder(0, 1, 0, 0, Color.black));
-                        lblResult.setText("   Successfully transfered.");
-                        
-                        lblBalance.setBounds(110, 300, 300, 30);
-                        lblBalance.setBorder( new MatteBorder(0, 1, 0, 0, Color.black));
-                        lblBalance.setText("   New Balance: PHP " + account.getCash());
+                Boolean accountCheck = isAccountSame(account, transferAccount);
+                if(accountCheck == true){
+                    if(cash != 0){
+                        if(account.getCash() >= cash){
+                            double ownerCash = account.getCash() - cash;
+                            account.setCash(ownerCash);
+                            double transferCash = transferAccount.getCash() + cash;
+                            transferAccount.setCash(transferCash);
+                            service.transferCash(account, transferAccount);
+
+                            lblResult.setBounds(110, 270, 300, 30);
+                            lblResult.setForeground(Color.black);
+                            lblResult.setBorder( new MatteBorder(0, 1, 0, 0, Color.black));
+                            lblResult.setText("   Successfully transfered.");
+
+                            lblBalance.setBounds(110, 300, 300, 30);
+                            lblBalance.setBorder( new MatteBorder(0, 1, 0, 0, Color.black));
+                            lblBalance.setText("   New Balance: PHP " + account.getCash());
+                        }
+                        else{
+                            lblResult.setBounds(110, 270, 300, 30);
+                            lblResult.setForeground(Color.red);
+                            lblResult.setBorder( new MatteBorder(0, 1, 0, 0, Color.black));
+                            lblResult.setText("   You don't have enough cash.");
+
+                            lblBalance.setBounds(110, 300, 300, 30);
+                            lblBalance.setBorder( new MatteBorder(0, 1, 0, 0, Color.black));
+                            lblBalance.setText("   Current Balance: PHP " + account.getCash());
+                        }
                     }
                     else{
-                        lblResult.setBounds(110, 270, 300, 30);
+                        lblResult.setBounds(130, 270, 300, 30);
                         lblResult.setForeground(Color.red);
-                        lblResult.setBorder( new MatteBorder(0, 1, 0, 0, Color.black));
-                        lblResult.setText("   You don't have enough cash.");
-
-                        lblBalance.setBounds(110, 300, 300, 30);
-                        lblBalance.setBorder( new MatteBorder(0, 1, 0, 0, Color.black));
-                        lblBalance.setText("   Current Balance: PHP " + account.getCash());
+                        lblResult.setBorder( new MatteBorder(0, 0, 0, 0, Color.black));
+                        lblResult.setText("Cannot transfer empty amount.");
+                        lblBalance.setBounds(0, 0, 0, 0);
                     }
                 }
                 else{
@@ -134,5 +144,8 @@ public class Transferpage extends JFrame implements ActionListener {
             Menupage menu = new Menupage();
             menu.setVisible(true);
         }
+    }
+    public Boolean isAccountSame(BankAccount owner, BankAccount transfer){
+        return !owner.getBanknumber().equals(transfer.getBanknumber());
     }
 }

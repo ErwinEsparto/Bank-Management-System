@@ -14,7 +14,7 @@ public class BankSQLData {
     
     BankSQLData(){
         try {
-            connection = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/bankmanagementsystem", "root", "01152003");
+            connection = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/bankmanagementsystem", "root", "root");
         }
         catch (SQLException sqlException) {
             sqlException.printStackTrace();
